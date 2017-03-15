@@ -43,8 +43,9 @@ bool KittiReader::read_cloud(PointCloud::Ptr &cloud)
 
     std::stringstream ss;
     ss<<'/'<<std::setfill('0')<<std::setw(kitti_file_id_len_)<<frame_index_<<".bin";
-    boost::filesystem::path file_full_path = boost::filesystem::path(cloud_dir_)
-		/ boost::filesystem::path(ss.str());
+    boost::filesystem::path file_full_path = boost::filesystem::path(root_dir_) /
+		boost::filesystem::path(cloud_dir_) /
+		boost::filesystem::path(ss.str());
     if (!boost::filesystem::is_regular(file_full_path)) {
         finished_ = true;
         return false;
@@ -106,8 +107,9 @@ bool KittiReader::read_img(cv::Mat &img)
 
     std::stringstream ss;
     ss<<'/'<<std::setfill('0')<<std::setw(kitti_file_id_len_)<<frame_index_<<".png";
-    boost::filesystem::path file_full_path = boost::filesystem::path(image_dir_)
-		/ boost::filesystem::path(ss.str());
+    boost::filesystem::path file_full_path = boost::filesystem::path(root_dir_) /
+		boost::filesystem::path(image_dir_) /
+		boost::filesystem::path(ss.str());
     if (!boost::filesystem::is_regular(file_full_path)) {
         finished_ = true;
         return false;
@@ -167,7 +169,8 @@ bool KittiReader::read_calib(Eigen::Matrix4d& Tr,
 	if (finished_)
 		return false;
 
-	boost::filesystem::path file_path = boost::filesystem::path(calib_dir_);
+	boost::filesystem::path file_path = boost::filesystem::path(root_dir_) /
+		boost::filesystem::path(calib_dir_);
 	boost::filesystem::path full_file_path;
 	if (boost::filesystem::is_directory(file_path)) {
 		if (is_calib_read_) {
@@ -250,12 +253,13 @@ void KittiReader::read_calib(uint64_t stamp)
 // pose dir is actually a regular file
 void KittiReader::set_pose_dir(const std::string &dir)
 {
-	if (!boost::filesystem::is_regular(
-				boost::filesystem::path(dir))) {
-		std::cerr << "invalid pose file." << std::endl;
+	boost::filesystem::path full_path = boost::filesystem::path(root_dir_) /
+		boost::filesystem::path(dir);
+	if (!boost::filesystem::is_regular(full_path)) {
+		std::cerr << "invalid pose file: " << full_path.string()<< std::endl;
 		return;
 	}
-	pose_file_.open(dir.c_str());
+	pose_file_.open(full_path.string().c_str());
 }
 
 void KittiReader::reset_read_flags(void)

@@ -23,6 +23,11 @@ class KittiReader {
 		bool read_calib(Eigen::Matrix4d& Tr,
 				Eigen::Matrix<double, 3, 4>& P0);
 
+		void set_root_dir(const std::string& dir)
+		{
+			root_dir_ = dir;
+		}
+
 		void set_cloud_dir(const std::string &dir)
 		{
 			cloud_dir_ = dir;
@@ -54,6 +59,7 @@ class KittiReader {
 	private:
 		void reset_read_flags(void);
 
+		std::string root_dir_;
 		std::string cloud_dir_;
 		std::string image_dir_;
 		std::string calib_dir_;

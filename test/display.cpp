@@ -12,9 +12,16 @@ int main(int argc, char** argv)
 	cv::namedWindow("img");
 
 	KittiReader reader;
-	reader.set_cloud_dir("/home/ys/Old/ProgramData/dataset/kitti-odo/lidar/sequences/00/velodyne");
-	reader.set_calib_dir("/home/ys/Old/ProgramData/dataset/kitti-odo/cali/sequences/00/calib.txt");
-	reader.set_pose_dir("/home/ys/Old/ProgramData/dataset/kitti-odo/gt/poses/00.txt");
+	// full directory for each
+	//reader.set_cloud_dir("/home/ys/Old/ProgramData/dataset/kitti-odo/lidar/sequences/00/velodyne");
+	//reader.set_calib_dir("/home/ys/Old/ProgramData/dataset/kitti-odo/cali/sequences/00/calib.txt");
+	//reader.set_pose_dir("/home/ys/Old/ProgramData/dataset/kitti-odo/gt/poses/00.txt");
+	
+	// set root dir and the relative dir for each
+	reader.set_root_dir("/home/ys/Old/ProgramData/dataset/kitti-odo");
+	reader.set_cloud_dir("lidar/sequences/00/velodyne");
+	reader.set_calib_dir("cali/sequences/00/calib.txt");
+	reader.set_pose_dir("gt/poses/00.txt");
 	reader.set_kitti_file_len(6);
 	reader.set_start_index(0);
 

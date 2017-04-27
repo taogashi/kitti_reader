@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2.0)
 project(kitti_reader)
 
 if(CMAKE_CURRENT_LIST_DIR STREQUAL CMAKE_SOURCE_DIR)
-	find_package(PCL 1.8 REQUIRED)
+	find_package(PCL REQUIRED)
 	find_package(OpenCV REQUIRED)
 
 	add_executable(test_reader ./test/display.cpp)
